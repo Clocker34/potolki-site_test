@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Оставить заявку — Потолки Мастер{% endblock %}
+{% block content %}
+
+<div class="max-w-lg mx-auto">
+    <h1 class="text-3xl font-extrabold text-gray-800 mb-2">Оставить заявку</h1>
+    <p class="text-gray-500 mb-8">Перезвоним в течение 30 минут и уточним детали</p>
+
+    <div class="bg-white rounded-2xl shadow p-8">
+        <form method="POST" class="space-y-5">
+
+            <div>
+               Ваше имя</label>
+                <input type="text" name="name" required placeholder="Иван Иванов"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <div>
+                Телефон</label>
+                <input type="tel" name="phone" required placeholder="+7 (999) 000-00-00"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <div>
+                Площадь помещения (м²)</label>
+                <input type="number" name="area" step="0.1" placeholder="25.5"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <div>
+                Вид услуги</label>
+                <select name="service_id"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    {% for s in services %}
+                    <option value="{{ s.id }}">{{ s.name }} — {{ s.price }} ₽/{{ s.unit }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-full transition">
+                Отправить заявку
+            </button>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

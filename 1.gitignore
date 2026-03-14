@@ -1,0 +1,5 @@
+.venv/
+__pycache__/
+*.pyc
+potolki.db
+static/uploads/

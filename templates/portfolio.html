@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Портфолио — Потолки Мастер{% endblock %}
+{% block content %}
+
+<h1 class="text-3xl font-extrabold text-gray-800 mb-2">Наши работы</h1>
+<p class="text-gray-500 mb-8">Реальные проекты наших мастеров</p>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for work in works %}
+    <div class="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition">
+        <div class="text-4xl mb-3">🏠</div>
+        <h3 class="text-lg font-bold text-gray-800 mb-2">{{ work.title }}</h3>
+        <p class="text-gray-500 text-sm mb-4">{{ work.description }}</p>
+        <span class="text-xs text-blue-400 font-medium">📅 {{ work.date }}</span>
+    </div>
+    {% endfor %}
+</div>
+
+{% if not works %}
+<div class="text-center py-20 text-gray-400">
+    <div class="text-6xl mb-4">🔨</div>
+    <p class="text-lg">Работы скоро появятся</p>
+</div>
+{% endif %}
+
+{% endblock %}

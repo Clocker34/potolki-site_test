@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Админка — Потолки Мастер{% endblock %}
+{% block content %}
+
+<div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-extrabold text-gray-800">Панель управления</h1>
+    <a href="/logout" class="text-sm text-red-500 hover:text-red-700 font-medium transition">← Выйти</a>
+</div>
+
+<!-- Заявки -->
+<h2 class="text-xl font-bold text-gray-700 mb-4">📋 Заявки ({{ orders|length }})</h2>
+<div class="bg-white rounded-2xl shadow overflow-hidden mb-10">
+    <table class="w-full text-sm">
+        <thead class="bg-blue-800 text-white">
+            <tr>
+                <th class="text-left px-6 py-3">Имя</th>
+                <th class="text-left px-6 py-3">Телефон</th>
+                <th class="text-left px-6 py-3">Площадь</th>
+                <th class="text-left px-6 py-3">Услуга</th>
+                <th class="text-left px-6 py-3">Дата</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for o in orders %}
+            <tr class="border-t border-gray-100 hover:bg-blue-50 transition">
+                <td class="px-6 py-3 font-medium">{{ o.name }}</td>
+                <td class="px-6 py-3">{{ o.phone }}</td>
+                <td class="px-6 py-3">{{ o.area }} м²</td>
+                <td class="px-6 py-3">{{ o.service_name }}</td>
+                <td class="px-6 py-3 text-gray-400 text-xs">{{ o.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Добавить работу -->
+<h2 class="text-xl font-bold text-gray-700 mb-4">🖼️ Добавить работу в портфолио</h2>
+<div class="bg-white rounded-2xl shadow p-6 mb-10 max-w-lg">
+    <form method="POST" action="/admin/add_work" enctype="multipart/form-data" class="space-y-4">
+        <div>
+            Название</label>
+            <input type="text" name="title" required
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+        <div>
+            Описание</label>
+            <input type="text" name="description"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+        <div>
+            Дата</label>
+            <input type="date" name="date" required
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+        <div>
+            Фото (необязательно)</label>
+            <input type="file" name="photo" accept="image/*"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+        <button type="submit"
+            class="bg-blue-700 hover:bg-blue-800 text-white font-bold px-6 py-2 rounded-full transition">
+            Добавить
+        </button>
+    </form>
+</div>
+
+<!-- Текущие работы -->
+<h2 class="text-xl font-bold text-gray-700 mb-4">📂 Текущие работы</h2>
+<div class="bg-white rounded-2xl shadow overflow-hidden">
+    <table class="w-full text-sm">
+        <thead class="bg-blue-800 text-white">
+            <tr>
+                <th class="text-left px-6 py-3">Фото</th>
+                <th class="text-left px-6 py-3">Название</th>
+                <th class="text-left px-6 py-3">Описание</th>
+                <th class="text-left px-6 py-3">Дата</th>
+                <th class="text-left px-6 py-3">Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for w in works %}
+            <tr class="border-t border-gray-100 hover:bg-red-50 transition">
+                <td class="px-6 py-3">
+                    {% if w.photo %}
+                    <img src="/static/uploads/{{ w.photo }}" class="w-12 h-12 object-cover rounded-lg">
+                    {% else %}
+                    <span class="text-gray-300 text-xl">🏠</span>
+                    {% endif %}
+                </td>
+                <td class="px-6 py-3 font-medium">{{ w.title }}</td>
+                <td class="px-6 py-3 text-gray-500">{{ w.description }}</td>
+                <td class="px-6 py-3 text-gray-400 text-xs">{{ w.date }}</td>
+                <td class="px-6 py-3">
+                    <a href="/admin/delete_work/{{ w.id }}"
+                        onclick="return confirm('Удалить?')"
+                        class="text-red-500 hover:text-red-700 font-medium text-xs">
+                        🗑 Удалить
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
