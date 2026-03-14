@@ -1,7 +1,10 @@
 import sqlite3
+import os
+
+DATABASE = os.environ.get('DATABASE_PATH', 'potolki.db')
 
 def get_db():
-    conn = sqlite3.connect('potolki.db')
+    conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -23,7 +26,8 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             description TEXT,
-            date TEXT
+            date TEXT,
+            photo TEXT
         )
     ''')
 
@@ -38,7 +42,6 @@ def init_db():
         )
     ''')
 
-    # Заполним тестовыми данными если таблица пустая
     cursor.execute('SELECT COUNT(*) FROM services')
     if cursor.fetchone()[0] == 0:
         cursor.executemany('INSERT INTO services (name, price, unit) VALUES (?, ?, ?)', [
